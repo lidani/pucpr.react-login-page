@@ -1,0 +1,27 @@
+name: Development workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Development Code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - run: npm install
+
+      - name: Test React App
+        run: npm run test
+
+      - name: Build React App
+        run: npm run build
