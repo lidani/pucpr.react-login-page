@@ -1,4 +1,4 @@
-name: Development workflow
+name: CI/CD
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +18,23 @@ jobs:
         with:
           node-version: 14.x
 
+      - run: 'echo "$FIREBASE_CONFIG" > src/firebase.config.json'
+        shell: bash
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+
       - run: npm install
 
-      - name: Test React App
-        run: npm run test
+      # - name: Test React App
+      #   run: npm run test
 
       - name: Build React App
         run: npm run build
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      
