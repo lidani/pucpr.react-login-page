@@ -2,26 +2,26 @@ name: Telegram PR notify
 
 on: pull_request
 
-jobs: 
+jobs:
   notify:
-
+    runs-on: ubuntu-latest
     steps:
-      - name: "Trigger Telegram bot"
-        env: 
+      - env:
           PR_NUMBER: ${{ github.event.number }}
+        shell: bash
         run: |
-        BOT_URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT }}/sendMessage"
+          BOT_URL="https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT }}/sendMessage"
 
-        MESSAGE="
-        -------------------------------------
-        Novo PR [$PR_NUMBER]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/pull/$PR_NUMBER)
-        \`Repository:  ${GITHUB_REPOSITORY}\`
-        \`Branch:      ${GITHUB_BASE_REF}\`
-        \`Commit SHA:  ${GITHUB_SHA}\`
-        --------------------------------------
-        "
-        
-        curl -s -X POST ${BOT_URL} \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="${MESSAGE}" \
-          -d parse_mode="Markdown"
+          MESSAGE="
+          -------------------------------------
+          Novo PR [$PR_NUMBER]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/pull/$PR_NUMBER)
+          \`Repository:  ${GITHUB_REPOSITORY}\`
+          \`Branch:      ${GITHUB_BASE_REF}\`
+          \`Commit SHA:  ${GITHUB_SHA}\`
+          --------------------------------------
+          "
+
+          curl -s -X POST ${BOT_URL} \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="${MESSAGE}" \
+            -d parse_mode="Markdown"
