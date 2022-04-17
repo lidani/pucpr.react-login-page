@@ -1,4 +1,4 @@
-FROM node:14-alpine as build 
+FROM node:16-alpine as build 
 WORKDIR /app
 
 COPY package*.json .
@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 
 RUN npm run lint
-RUN npm run test --watchAll=false
+RUN npm run test -- --watchAll=false --passWithNoTests
 
 RUN npm run build
 
