@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 
 RUN npm run lint
-RUN npm run test
+RUN npm run test -- --watchAll=false
 
 RUN npm run build
 
