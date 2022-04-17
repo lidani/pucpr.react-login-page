@@ -34,7 +34,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USER }}/pucpr-react-firebase:latest
-            ${{ secrets.DOCKERHUB_USER }}/pucpr-react-firebase:$GITHUB_SHA_SHORT
+            ${{ secrets.DOCKERHUB_USER }}/pucpr-react-firebase:${{ env.GITHUB_SHA_SHORT }}
 
   build_deploy_firebase:
     if: ${{ false }} # disable for now
